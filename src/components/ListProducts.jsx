@@ -77,6 +77,7 @@ export default class ListProducts extends Component {
                 title={ title }
                 price={ price }
                 thumbnail={ thumbnail }
+                id={ id }
               />)) : <p>Nenhum produto foi encontrado</p>}
         </div>
       </div>
