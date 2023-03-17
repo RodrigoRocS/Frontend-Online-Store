@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import { getCategories,
+  getProductsFromCategoryAndQuery, getProductsFromID } from '../services/api';
 import ProductCard from './ProductCard';
 
 export default class ListProducts extends Component {
@@ -25,8 +26,13 @@ export default class ListProducts extends Component {
 
   filterProducts = async () => {
     const { productName } = this.state;
-    const getProduct = await getProductsFromCategoryAndQuery(productName);
-    this.setState({ products: getProduct });
+    const { results } = await getProductsFromCategoryAndQuery(productName);
+    this.setState({ products: results });
+  };
+
+  filterProductsID = async (id) => {
+    const { results } = await getProductsFromID(id);
+    this.setState({ products: results });
   };
 
   render() {
@@ -54,7 +60,11 @@ export default class ListProducts extends Component {
         </button>
         <div>
           {categories.map(({ id, name }) => (
-            <button key={ id } data-testid="category">
+            <button
+              key={ id }
+              data-testid="category"
+              onClick={ () => this.filterProductsID(id) }
+            >
               {name}
             </button>
           ))}
