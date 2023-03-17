@@ -2,15 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { getCategories } from '../services/api';
 
-
 export default class ListProducts extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      categories: [],
-    };
-  }
+  state = {
+    categories: [],
+  };
 
   componentDidMount() {
     getCategories().then((categories) => {
