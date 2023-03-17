@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { getCategories } from '../services/api';
+
 
 export default class ListProducts extends Component {
   constructor(props) {
@@ -21,6 +23,7 @@ export default class ListProducts extends Component {
 
     return (
       <div>
+        <Link to="/cart" data-testid="shopping-cart-button">Search</Link>
         <input type="text" />
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
