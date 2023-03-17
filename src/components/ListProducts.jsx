@@ -9,6 +9,7 @@ export default class ListProducts extends Component {
     categories: [],
     productName: '',
     products: [],
+    currProduct: [],
   };
 
   async componentDidMount() {
@@ -35,13 +36,23 @@ export default class ListProducts extends Component {
     this.setState({ products: results });
   };
 
+  getProduct = (title, thumbnail, price) => {
+    const productObj = {
+      title,
+      thumbnail,
+      price,
+    };
+    this.setState((prevState) => ({
+      currProduct: [...prevState.currProduct, productObj],
+    }));
+  };
+
   render() {
     const { categories, productName, products } = this.state;
 
     return (
       <div>
-        <Link to="/cart" data-testid="shopping-cart-button">Search</Link>
-        <input type="text" />
+        <Link to="/cart" data-testid="shopping-cart-button">Carrinho</Link>
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
@@ -77,6 +88,7 @@ export default class ListProducts extends Component {
                 title={ title }
                 price={ price }
                 thumbnail={ thumbnail }
+                getProduct={ this.getProduct }
                 id={ id }
               />)) : <p>Nenhum produto foi encontrado</p>}
         </div>
