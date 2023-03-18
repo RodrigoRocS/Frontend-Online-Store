@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { getProductById } from '../services/api';
 
 class ProductDetails extends Component {
@@ -14,16 +15,17 @@ class ProductDetails extends Component {
   }
 
   render() {
-    const { history } = this.props;
+    const { match: { params: { id } }, getProduct } = this.props;
     const { details: { title, thumbnail, price } } = this.state;
     return (
       <div>
+        <Link to="/cart" data-testid="shopping-cart-button">Carrinho</Link>
         <p data-testid="product-detail-name">{title}</p>
         <img src={ thumbnail } alt={ title } data-testid="product-detail-image" />
         <p data-testid="product-detail-price">{ price }</p>
         <button
-          data-testid="shopping-cart-button"
-          onClick={ () => history.push('/cart') }
+          data-testid="product-detail-add-to-cart"
+          onClick={ () => getProduct(title, thumbnail, price, id) }
         >
           Comprar
         </button>
@@ -33,13 +35,11 @@ class ProductDetails extends Component {
 }
 
 ProductDetails.propTypes = {
+  getProduct: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
-  }).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func,
   }).isRequired,
 };
 export default ProductDetails;

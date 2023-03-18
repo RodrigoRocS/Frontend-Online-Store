@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { getCategories,
   getProductsFromCategoryAndQuery, getProductsFromID } from '../services/api';
 import ProductCard from './ProductCard';
@@ -9,17 +10,11 @@ export default class ListProducts extends Component {
     categories: [],
     productName: '',
     products: [],
-    currProduct: [],
   };
 
   async componentDidMount() {
     const categories = await getCategories();
     this.setState({ categories });
-  }
-
-  componentDidUpdate() {
-    const { currProduct } = this.state;
-    localStorage.setItem('cartItems', JSON.stringify(currProduct));
   }
 
   onInputChange = ({ target }) => {
@@ -41,21 +36,9 @@ export default class ListProducts extends Component {
     this.setState({ products: results });
   };
 
-  getProduct = (title, thumbnail, price, id) => {
-    const productObj = {
-      title,
-      thumbnail,
-      price,
-      id,
-    };
-    this.setState((prevState) => ({
-      currProduct: [...prevState.currProduct, productObj],
-    }));
-  };
-
   render() {
     const { categories, productName, products } = this.state;
-
+    const { getProduct } = this.props;
     return (
       <div>
         <Link to="/cart" data-testid="shopping-cart-button">Carrinho</Link>
@@ -94,11 +77,15 @@ export default class ListProducts extends Component {
                 title={ title }
                 price={ price }
                 thumbnail={ thumbnail }
-                getProduct={ this.getProduct }
                 id={ id }
+                getProduct={ getProduct }
               />)) : <p>Nenhum produto foi encontrado</p>}
         </div>
       </div>
     );
   }
 }
+
+ListProducts.propTypes = {
+  getProduct: PropTypes.func.isRequired,
+};
