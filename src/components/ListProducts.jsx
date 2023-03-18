@@ -17,6 +17,11 @@ export default class ListProducts extends Component {
     this.setState({ categories });
   }
 
+  componentDidUpdate() {
+    const { currProduct } = this.state;
+    localStorage.setItem('cartItems', JSON.stringify(currProduct));
+  }
+
   onInputChange = ({ target }) => {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -36,11 +41,12 @@ export default class ListProducts extends Component {
     this.setState({ products: results });
   };
 
-  getProduct = (title, thumbnail, price) => {
+  getProduct = (title, thumbnail, price, id) => {
     const productObj = {
       title,
       thumbnail,
       price,
+      id,
     };
     this.setState((prevState) => ({
       currProduct: [...prevState.currProduct, productObj],

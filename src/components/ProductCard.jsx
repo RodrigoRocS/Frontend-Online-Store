@@ -7,12 +7,12 @@ class ProductCard extends Component {
     const { title, thumbnail, price, getProduct, id } = this.props;
     return (
       <div data-testid="product">
-        <p>{ title }</p>
+        <p data-testid="shopping-cart-product-name">{ title }</p>
         <img src={ thumbnail } alt="" />
         <p>{ price }</p>
         <button
           data-testid="product-add-to-cart"
-          onClick={ () => getProduct(title, thumbnail, price) }
+          onClick={ () => getProduct(title, thumbnail, price, id) }
         >
           Comprar
         </button>
@@ -23,6 +23,7 @@ class ProductCard extends Component {
           Details
 
         </Link>
+        <p data-testid="shopping-cart-product-quantity">Quantidade: 1</p>
       </div>
     );
   }
@@ -33,6 +34,6 @@ ProductCard.propTypes = {
   thumbnail: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   getProduct: PropTypes.func.isRequired,
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
 };
 export default ProductCard;
