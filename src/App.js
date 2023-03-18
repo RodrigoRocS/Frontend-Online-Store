@@ -5,6 +5,27 @@ import ProductDetails from './components/ProductDetails';
 import ShoppingCart from './components/ShoppingCart';
 
 class App extends React.Component {
+  state = {
+    currProduct: [],
+  };
+
+  componentDidUpdate() {
+    const { currProduct } = this.state;
+    localStorage.setItem('cartItems', JSON.stringify(currProduct));
+  }
+
+  getProduct = (title, thumbnail, price, id) => {
+    const productObj = {
+      title,
+      thumbnail,
+      price,
+      id,
+    };
+    this.setState((prevState) => ({
+      currProduct: [...prevState.currProduct, productObj],
+    }));
+  };
+
   render() {
     return (
       <div>
@@ -12,7 +33,7 @@ class App extends React.Component {
           <Route
             exact
             path="/"
-            component={ ListProducts }
+            render={ () => <ListProducts getProduct={ this.getProduct } /> }
           />
           <Route
             exact
@@ -22,7 +43,10 @@ class App extends React.Component {
           <Route
             exact
             path="/ProductDeatils/:id"
-            render={ (props) => <ProductDetails { ...props } /> }
+            render={ (props) => (<ProductDetails
+              { ...props }
+              getProduct={ this.getProduct }
+            />) }
           />
         </Switch>
       </div>

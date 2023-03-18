@@ -2,17 +2,8 @@ import React, { Component } from 'react';
 import ProductCard from './ProductCard';
 
 export default class ShoppingCart extends Component {
-  state = {
-    cartItems: [],
-  };
-
-  componentDidMount() {
-    const localStorageItems = JSON.parse(localStorage.getItem('cartItems'));
-    this.setState({ cartItems: localStorageItems || [] });
-  }
-
   render() {
-    const { cartItems } = this.state;
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     return (
       <div>
         {cartItems.length > 0 ? (
