@@ -26,6 +26,14 @@ class App extends React.Component {
     }));
   };
 
+  removeProduct = (productId) => {
+    this.setState((prevState) => {
+      const updatedCart = prevState.currProduct.filter((item) => item.id !== productId);
+      localStorage.setItem('cartItems', JSON.stringify(updatedCart));
+      return { currProduct: updatedCart };
+    });
+  };
+
   render() {
     return (
       <div>
@@ -33,7 +41,10 @@ class App extends React.Component {
           <Route
             exact
             path="/"
-            render={ () => <ListProducts getProduct={ this.getProduct } /> }
+            render={ () => (<ListProducts
+              getProduct={ this.getProduct }
+              removeProduct={ this.removeProduct }
+            />) }
           />
           <Route
             exact

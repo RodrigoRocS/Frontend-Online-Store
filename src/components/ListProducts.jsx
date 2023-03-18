@@ -38,7 +38,7 @@ export default class ListProducts extends Component {
 
   render() {
     const { categories, productName, products } = this.state;
-    const { getProduct } = this.props;
+    const { getProduct, removeProduct } = this.props;
     return (
       <div>
         <Link to="/cart" data-testid="shopping-cart-button">Carrinho</Link>
@@ -79,6 +79,7 @@ export default class ListProducts extends Component {
                 thumbnail={ thumbnail }
                 id={ id }
                 getProduct={ getProduct }
+                removeProduct={ removeProduct }
               />)) : <p>Nenhum produto foi encontrado</p>}
         </div>
       </div>
@@ -88,4 +89,5 @@ export default class ListProducts extends Component {
 
 ListProducts.propTypes = {
   getProduct: PropTypes.func.isRequired,
+  removeProduct: PropTypes.func.isRequired,
 };
