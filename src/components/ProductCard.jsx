@@ -23,7 +23,6 @@ class ProductCard extends Component {
           Details
 
         </Link>
-        <p data-testid="shopping-cart-product-quantity">Quantidade: 1</p>
       </div>
     );
   }
