@@ -7,7 +7,6 @@ import ShoppingCart from './components/ShoppingCart';
 class App extends React.Component {
   state = {
     currProduct: [],
-    productQuantity: 1,
   };
 
   componentDidUpdate() {
@@ -30,33 +29,30 @@ class App extends React.Component {
   };
 
   removeProduct = (productId) => {
-    this.setState((prevState) => {
-      const updatedCart = prevState.currProduct.filter((item) => item.id !== productId);
+    this.setState(() => {
+      const savedProducts = JSON.parse(localStorage.getItem('cartItems'));
+      const updatedCart = savedProducts.filter((item) => item.id !== productId);
       localStorage.setItem('cartItems', JSON.stringify(updatedCart));
       return { currProduct: updatedCart };
     });
   };
 
   decrement = (id) => {
-    const { currProduct } = this.state;
-    currProduct.find((item) => item.id === id).quantity -= 1;
+    const currProduct = JSON.parse(localStorage.getItem('cartItems'));
+    if (currProduct.find((item) => item.id === id).quantity > 1) {
+      currProduct.find((item) => item.id === id).quantity -= 1;
+    }
     localStorage.setItem('cartItems', JSON.stringify(currProduct));
-    this.setState((prevState) => ({
-      productQuantity: prevState.productQuantity - 1,
-    }));
   };
 
   increment = (id) => {
-    const { currProduct } = this.state;
+    const currProduct = JSON.parse(localStorage.getItem('cartItems'));
     currProduct.find((item) => item.id === id).quantity += 1;
     localStorage.setItem('cartItems', JSON.stringify(currProduct));
-    this.setState((prevState) => ({
-      productQuantity: prevState.productQuantity + 1,
-    }));
   };
 
   render() {
-    const { currProduct, productQuantity } = this.state;
+    const { currProduct } = this.state;
     return (
       <div>
         <Switch>
@@ -66,7 +62,6 @@ class App extends React.Component {
             render={ () => (<ListProducts
               getProduct={ this.getProduct }
               currProduct={ currProduct }
-              productQuantity={ productQuantity }
             />) }
           />
           <Route
@@ -76,7 +71,7 @@ class App extends React.Component {
               removeProduct={ this.removeProduct }
               decrement={ this.decrement }
               increment={ this.increment }
-              productQuantity={ productQuantity }
+              currProduct={ currProduct }
             />) }
           />
           <Route
