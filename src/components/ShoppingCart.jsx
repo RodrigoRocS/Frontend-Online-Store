@@ -29,7 +29,7 @@ export default class ShoppingCart extends Component {
               <button
                 onClick={ () => {
                   decrement(id);
-                  this.setState({ qtd: quantity });
+                  this.forceUpdate();
                 } }
                 data-testid="product-decrease-quantity"
               >
@@ -39,7 +39,7 @@ export default class ShoppingCart extends Component {
               <button
                 onClick={ () => {
                   increment(id);
-                  this.setState({ qtd: quantity });
+                  this.forceUpdate();
                 } }
                 data-testid="product-increase-quantity"
               >

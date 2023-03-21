@@ -9,11 +9,6 @@ class App extends React.Component {
     currProduct: [],
   };
 
-  // componentDidMount() {
-  //   const productList = JSON.parse(localStorage.getItem('cartItems'));
-  //   this.setState({ currProduct: productList });
-  // }
-
   componentDidUpdate() {
     const { currProduct } = this.state;
     localStorage.setItem('cartItems', JSON.stringify(currProduct));
