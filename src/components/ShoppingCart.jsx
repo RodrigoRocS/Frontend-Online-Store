@@ -5,11 +5,11 @@ import ProductCard from './ProductCard';
 export default class ShoppingCart extends Component {
   render() {
     const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    const { removeProduct, decrement, increment, productQuantity } = this.props;
+    const { removeProduct, decrement, increment } = this.props;
     return (
       <div>
         {cartItems.length > 0 ? (
-          cartItems.map(({ id, title, price, thumbnail }) => (
+          cartItems.map(({ id, title, price, thumbnail, quantity }) => (
             <>
               <ProductCard
                 key={ id }
@@ -17,6 +17,7 @@ export default class ShoppingCart extends Component {
                 title={ title }
                 price={ price }
                 thumbnail={ thumbnail }
+                quantity={ quantity }
               />
               <button
                 data-testid="remove-product"
@@ -26,14 +27,20 @@ export default class ShoppingCart extends Component {
 
               </button>
               <button
-                onClick={ () => decrement(id) }
+                onClick={ () => {
+                  decrement(id);
+                  this.setState({ qtd: quantity });
+                } }
                 data-testid="product-decrease-quantity"
               >
                 -
               </button>
-              <p data-testid="shopping-cart-product-quantity">{ productQuantity }</p>
+              <p data-testid="shopping-cart-product-quantity">{ quantity }</p>
               <button
-                onClick={ () => increment(id) }
+                onClick={ () => {
+                  increment(id);
+                  this.setState({ qtd: quantity });
+                } }
                 data-testid="product-increase-quantity"
               >
                 +
