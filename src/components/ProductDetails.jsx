@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getProductById } from '../services/api';
+import EvaluationForm from './EvaluationForm';
 
 class ProductDetails extends Component {
   state = {
@@ -29,6 +30,7 @@ class ProductDetails extends Component {
         >
           Comprar
         </button>
+        <EvaluationForm id={ id } />
       </div>
     );
   }
